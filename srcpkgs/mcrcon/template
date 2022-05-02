@@ -1,0 +1,11 @@
+# Template file for 'mcrcon'
+pkgname=mcrcon
+version=0.7.2
+revision=0
+build_style=gnu-makefile
+short_desc="Console based Minecraft rcon client for remote administration and server maintenance scripts"
+maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
+license="Zlib"
+homepage="https://sourceforge.net/projects/mcrcon/"
+distfiles="https://github.com/Tiiffi/mcrcon/archive/refs/tags/v${version}.tar.gz"
+checksum=1743b25a2d031b774e805f4011cb7d92010cb866e3b892f5dfc5b42080973270
