@@ -2,53 +2,23 @@
 pkgname=dotnet
 version=6.0.302
 revision=1
-_bootstrapver=6.0.104
 archs="x86_64"
 wrksrc="dotnet-${version}"
 build_style=meta
-hostmakedepends="clang cmake curl git inetutils llvm tar"
-makedepends="icu-devel mit-krb5-devel libgit2-devel libunwind-devel
-libxml2-devel lldb-devel lttng-ust-devel nodejs-devel openssl-devel zlib-devel"
 depends="dotnet-sdk aspnetcore-runtime dotnet-runtime dotnet-hostfxr
  dotnet-host dotnet-apphost-pack dotnet-targeting-pack aspnetcore-targeting-pack
  netstandard-targeting-pack dotnet-templates"
 short_desc=".NET Core components meta package"
-maintainer="Joel Beckmeyer <joel@beckmeyer.us>"
+maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
 license="MIT"
 homepage="https://dotnet.microsoft.com"
-# cat masterdir/builddir/dotnet-6.0.302/sources/packages/archive/archiveArtifacts.txt
-distfiles="https://dotnetcli.azureedge.net/source-built-artifacts/assets/Private.SourceBuilt.Artifacts.${_bootstrapver}.tar.gz"
-checksum="a0a4196c44ab7ec194d07fa3aca624e292e639087d1eaee2d88358c8e72bb77f"
-skip_extraction="Private.SourceBuilt.Artifacts.${_bootstrapver}.tar.gz"
-
-post_fetch() {
-	mkdir "${wrksrc}"
-	cd "${wrksrc}"
-	git clone https://github.com/dotnet/installer.git
-	cd installer
-	git checkout "v${version}"
-
-	# contrary to what the name suggests, running the script with these flags
-	# just fetches the complete sources needed to build the SDK
-	./build.sh \
-		/p:ArcadeBuildTarball=true \
-		/p:TarballDir="${wrksrc}/sources"
-}
-
-do_configure() {
-	cd sources
-	ln -sf "${XBPS_SRCDISTDIR}/dotnet-${version}/Private.SourceBuilt.Artifacts.${_bootstrapver}.tar.gz" packages/archive/
-	./prep.sh
-}
-
-do_build() {
-	cd sources
-	./build.sh
-}
+distfiles="https://download.visualstudio.microsoft.com/download/pr/0e83f50a-0619-45e6-8f16-dc4f41d1bb16/e0de908b2f070ef9e7e3b6ddea9d268c/dotnet-sdk-6.0.302-linux-x64.tar.gz"
+checksum="883a25a15a6aa9d74ae35b23efdb6dced85e52b9519fc590313cec6c2626af79"
+create_wrksrc=true
 
 do_install() {
-	cd sources/artifacts/x64/Release
-	bsdtar -xf dotnet-sdk-"${version}"-linux-x64.tar.gz
+	pwd
+	ls
 
 	vmkdir usr/lib/dotnet
 	vcopy dotnet usr/lib/dotnet
@@ -76,24 +46,24 @@ dotnet-host_package() {
 		vmove etc/dotnet/install_location
 		vmove etc/profile.d/dotnet.sh
 
-		cd "${wrksrc}"/sources/src/sdk.*/scripts
-		vcompletion register-completions.bash bash
-		vcompletion register-completions.zsh zsh
+		#cd "${wrksrc}"/sources/src/sdk.*/scripts
+		#vcompletion register-completions.bash bash
+		#vcompletion register-completions.zsh zsh
 		#vcompletion "$wrksrc/sources/src/sdk.*/scripts/register-completions.bash" bash
 		#vcompletion "$wrksrc/sources/src/sdk.*/scripts/register-completions.zsh" zsh
 
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/ThirdPartyNotices.txt
+		vlicense "${wrksrc}"/LICENSE.txt
+		vlicense "${wrksrc}"/ThirdPartyNotices.txt
 		# there are 2 dotnet.1 manpages; one in the runtime and one in the sdk. On
 		# closer inspection this one is titled dotnet-cli(1) at the top. sdk
 		# manpages are included here because they are referenced by
 		# dotnet-cli(1).
-		cd "${wrksrc}"/sources/src/runtime.*/docs/manpages/host
-		vman dotnet.1 dotnet-cli.1
-		cd "${wrksrc}"/sources/src/sdk.*/documentation/manpages/sdk
-		for f in *.1; do
-			vman $f
-		done
+		#cd "${wrksrc}"/sources/src/runtime.*/docs/manpages/host
+		#vman dotnet.1 dotnet-cli.1
+		#cd "${wrksrc}"/sources/src/sdk.*/documentation/manpages/sdk
+		#for f in *.1; do
+			#vman $f
+		#done
 	}
 }
 
@@ -102,7 +72,7 @@ dotnet-hostfxr_package() {
 	depends="dotnet-host"
 	pkg_install() {
 		vmove usr/lib/dotnet/host/fxr
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
 
@@ -111,7 +81,7 @@ dotnet-runtime_package() {
 	depends="dotnet-hostfxr"
 	pkg_install() {
 		vmove usr/lib/dotnet/shared/Microsoft.NETCore.App
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
 
@@ -120,7 +90,7 @@ aspnetcore-runtime_package() {
 	depends="dotnet-runtime"
 	pkg_install() {
 		vmove usr/lib/dotnet/shared/Microsoft.AspNetCore.App
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
 
@@ -131,8 +101,7 @@ dotnet-sdk_package() {
 	 dotnet-templates"
 	pkg_install() {
 		vmove usr/lib/dotnet/sdk
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
-
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
 
@@ -140,7 +109,7 @@ dotnet-apphost-pack_package() {
 	short_desc=".NET Core apphost pack"
 	pkg_install() {
 		vmove usr/lib/dotnet/packs/Microsoft.NETCore.App.Host.linux-x64
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
 
@@ -148,7 +117,7 @@ dotnet-targeting-pack_package() {
 	short_desc=".NET Core targeting pack"
 	pkg_install() {
 		vmove usr/lib/dotnet/packs/Microsoft.NETCore.App.Ref
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
 
@@ -156,7 +125,7 @@ aspnetcore-targeting-pack_package() {
 	short_desc="ASP.NET Core targeting pack"
 	pkg_install() {
 		vmove usr/lib/dotnet/packs/Microsoft.AspNetCore.App.Ref
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
 
@@ -164,7 +133,7 @@ netstandard-targeting-pack_package() {
 	short_desc=".NET Standard targeting pack"
 	pkg_install() {
 		vmove usr/lib/dotnet/packs/NETStandard.Library.Ref
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
 
@@ -172,7 +141,6 @@ dotnet-templates_package() {
 	short_desc=".NET Core SDK templates"
 	pkg_install() {
 		vmove usr/lib/dotnet/templates
-		vlicense "${wrksrc}"/sources/artifacts/x64/Release/LICENSE.txt
-
+		vlicense "${wrksrc}"/LICENSE.txt
 	}
 }
