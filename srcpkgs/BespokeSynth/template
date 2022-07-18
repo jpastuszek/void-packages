@@ -1,0 +1,30 @@
+# Template file for 'BespokeSynth'
+pkgname=BespokeSynth
+version=1.1.0
+revision=0
+build_style=cmake
+hostmakedepends="python3 pkg-config python3-pybind11"
+makedepends="libcurl-devel python3-devel alsa-lib-devel freetype-devel libX11-devel libXcomposite-devel libXcursor-devel libXext-devel libXrandr-devel libXrender-devel MesaLib-devel libXinerama-devel libusb-devel jsoncpp-devel jack-devel"
+configure_args="-DBESPOKE_SYSTEM_JSONCPP=ON -DBESPOKE_SYSTEM_PYBIND11=ON -Dpybind11_ROOT=/usr/lib/python3.10/site-packages/pybind11/share/cmake/pybind11"
+depends="python3"
+short_desc="A software modular synth"
+maintainer="Jakub Pastuszek <jpastuszek@protonamil.com>"
+license="GPL-3"
+homepage="https://www.bespokesynth.com/"
+distfiles="https://github.com/BespokeSynth/BespokeSynth/archive/refs/tags/v1.1.0.tar.gz https://github.com/juce-framework/JUCE/archive/2f980209cc4091a4490bb1bafc5d530f16834e58.tar.gz>juce-framework.tar.gz https://github.com/surge-synthesizer/tuning-library/archive/eb8617be49ac3c2436cf54de6bff94a1b1c94acf.tar.gz>tuning-library.tar.gz https://github.com/ODDSound/MTS-ESP/archive/fcfaa59a043d515d288c9d587bf61a0a7d7571a8.tar.gz>MTS-ESP.tar.gz"
+checksum="4d8346f9f30005b785d259c089216214a0b423bfae41a76b7d5f3b3755c86b3c 4d695ead0f90b2a01de910ae80809ae92dead7527c01589518c78f8626a9dde2 f533cfa378e26da495b2364af5ff86e509e31b984e2cad7f20fdc81b0e421b26 7daff00bae1295d099cd7ffec143ddd3df36bd55f2906fd227245d2608aa42dd"
+
+post_extract() {
+	rmdir libs/JUCE
+	mv ../JUCE-* libs/JUCE
+
+	rmdir libs/tuning-library
+	mv ../tuning-library-* libs/tuning-library
+
+	rmdir libs/oddsound-mts/MTS-ESP
+	mv ../MTS-ESP-* libs/oddsound-mts/MTS-ESP
+}
+
+post_install() {
+	vlicense LICENSE
+}

@@ -1,0 +1,67 @@
+From 762854466b4050770002d843aee1addd25e38ff8 Mon Sep 17 00:00:00 2001
+From: David Runge <dave@sleepmap.de>
+Date: Sun, 21 Nov 2021 18:12:00 +0100
+Subject: [PATCH] Allow devendoring of jsoncpp
+
+CMakeLists.txt:
+Add the `BESPOKE_SYSTEM_JSONCPP` option (defaults to `OFF`) to indicate,
+that a system version of jsoncpp should be used instead of the bundled
+version.
+
+Source/CMakeLists.txt:
+Use a conditional generator expression to either link against
+`bespoke::json` or against `jsoncpp` (depending on
+`BESPOKE_SYSTEM_JSONCPP`).
+
+libs/CMakeLists.txt:
+Depending on `BESPOKE_SYSTEM_JSONCPP` include the bundled version of
+jsoncpp or use the pkgconfig integration to find a system-wide jsoncpp.
+---
+ CMakeLists.txt        | 1 +
+ Source/CMakeLists.txt | 2 +-
+ libs/CMakeLists.txt   | 9 ++++++++-
+ 3 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index bf0f0b81b..a43addd9e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -9,5 +9,6 @@ set(BESPOKE_PYTHON_ROOT "" CACHE STRING "Python search path. Override as needed.
+ set(BESPOKE_VST2_SDK_LOCATION "" CACHE STRING "Steinberg VST2 SDK directory for non-FOSS builds")
+ set(BESPOKE_ASIO_SDK_LOCATION "" CACHE STRING "Steinberg ASIO SDK directory for non-FOSS builds")
++option(BESPOKE_SYSTEM_JSONCPP "Use system-wide installation of jsoncpp" OFF)
+ 
+ # Global CMake options
+ set(CMAKE_CXX_EXTENSIONS OFF)
+diff --git a/Source/CMakeLists.txt b/Source/CMakeLists.txt
+index 59dbe9359..85683e4b5 100644
+--- a/Source/CMakeLists.txt
++++ b/Source/CMakeLists.txt
+@@ -451,7 +451,7 @@ endif ()
+ target_link_libraries(BespokeSynth PRIVATE
+     bespoke::exprtk
+     bespoke::freeverb
+-    bespoke::json
++    $<IF:$<STREQUAL:${BESPOKE_SYSTEM_JSONCPP},OFF>,bespoke::json,jsoncpp>
+     bespoke::leathers
+     bespoke::nanovg
+     bespoke::psmove
+diff --git a/libs/CMakeLists.txt b/libs/CMakeLists.txt
+index 5f92ef30d..a69087292 100644
+--- a/libs/CMakeLists.txt
++++ b/libs/CMakeLists.txt
+@@ -1,6 +1,13 @@
+ add_subdirectory(exprtk EXCLUDE_FROM_ALL)
+ add_subdirectory(freeverb EXCLUDE_FROM_ALL)
+-add_subdirectory(json EXCLUDE_FROM_ALL)
++if(NOT BESPOKE_SYSTEM_JSONCPP)
++  add_subdirectory(json EXCLUDE_FROM_ALL)
++  message(STATUS "Using bundled jsoncpp")
++else()
++  include(FindPkgConfig)
++  pkg_search_module(json REQUIRED jsoncpp)
++  message(STATUS "Using system provided jsoncpp")
++endif()
+ add_subdirectory(leathers EXCLUDE_FROM_ALL)
+ add_subdirectory(nanovg EXCLUDE_FROM_ALL)
+ add_subdirectory(oddsound-mts EXCLUDE_FROM_ALL)
