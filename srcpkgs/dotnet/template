@@ -1,8 +1,8 @@
 # Template file for 'dotnet'
 pkgname=dotnet
-version=6.0.100
+version=6.0.302
 revision=1
-_bootstrapver=0.1.0-6.0.100-bootstrap.29
+_bootstrapver=6.0.104
 archs="x86_64"
 wrksrc="dotnet-${version}"
 build_style=meta
@@ -16,8 +16,9 @@ short_desc=".NET Core components meta package"
 maintainer="Joel Beckmeyer <joel@beckmeyer.us>"
 license="MIT"
 homepage="https://dotnet.microsoft.com"
+# cat masterdir/builddir/dotnet-6.0.302/sources/packages/archive/archiveArtifacts.txt
 distfiles="https://dotnetcli.azureedge.net/source-built-artifacts/assets/Private.SourceBuilt.Artifacts.${_bootstrapver}.tar.gz"
-checksum="e97c7dc2bfc7b6d92f06e357719d86b0b2ccd54ac2358b2aba30f95935475c33"
+checksum="a0a4196c44ab7ec194d07fa3aca624e292e639087d1eaee2d88358c8e72bb77f"
 skip_extraction="Private.SourceBuilt.Artifacts.${_bootstrapver}.tar.gz"
 
 post_fetch() {
