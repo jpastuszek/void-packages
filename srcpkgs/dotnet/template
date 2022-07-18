@@ -17,9 +17,6 @@ checksum="883a25a15a6aa9d74ae35b23efdb6dced85e52b9519fc590313cec6c2626af79"
 create_wrksrc=true
 
 do_install() {
-	pwd
-	ls
-
 	vmkdir usr/lib/dotnet
 	vcopy dotnet usr/lib/dotnet
 	vcopy host usr/lib/dotnet
