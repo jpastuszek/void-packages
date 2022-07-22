@@ -1,0 +1,14 @@
+# Template file for 'HexoSynth'
+pkgname=HexoSynth
+version=0.0.20220722
+revision=0
+build_style=cargo
+hostmakedepends="pkg-config"
+makedepends="libjack-pipewire alsa-plugins-speex xcb-util-wm-devel alsa-lib-devel libXrender-devel libXcursor-devel libglvnd-devel libxcb-devel openssl-devel"
+short_desc="A FLOSS (Open Source) hexagonal modular synthesizer plugin"
+maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
+license="GPL-3"
+homepage="https://m8geil.de/posts/hexosynth-5/"
+distfiles="https://github.com/WeirdConstructor/HexoSynth/archive/1b79607124368c3e7a0f509e7c693f712c7453f9.tar.gz"
+checksum=66c98c3d52d922c87e391a1978b49d0d021f86637e5080035003c9b86a578c74
+wrksrc="HexoSynth-1b79607124368c3e7a0f509e7c693f712c7453f9/cpal_standalone"
