@@ -1,0 +1,12 @@
+# Template file for 'ft2-clone'
+pkgname=ft2-clone
+version=1.56
+revision=0
+build_style=cmake
+short_desc="Highly accurate clone of the classic Fasttracker II software for MS-DOS"
+makedepends="SDL2-devel alsa-lib-devel "
+maintainer="Jakub Pastuszek <jpastuszzek@protonmail.com>"
+license="BSD 3-Clause"
+homepage="https://16-bits.org/ft2.php"
+distfiles="https://github.com/8bitbubsy/ft2-clone/archive/refs/tags/v${version}.tar.gz"
+checksum="852870294be1df8bf12d4a9c262dea7cd40355c6d4a0239c9e296ace6f5644bf"
