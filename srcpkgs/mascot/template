@@ -1,0 +1,19 @@
+# Template file for 'mascot'
+pkgname=mascot
+version=0.3.0
+revision=0
+build_style=cargo
+hostmakedepends="pkg-config"
+makedepends="libcurl-devel openssl-devel"
+short_desc="Configuraiton management system"
+maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://sr.ht/~jpastuszek/mascot/"
+distfiles="https://git.sr.ht/~jpastuszek/mascot/archive/v${version}.tar.gz"
+wrksrc="${pkgname}-v${version}"
+checksum=e61003d2be18e88ef54afe6b785952d51e4207d308f90b8bd0105d46efb24eca
+
+post_install() {
+	vlicense LICENSES/GPL-3.0-or-later.txt
+	vdoc README.md
+}
