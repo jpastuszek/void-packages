@@ -1,0 +1,17 @@
+# Template file for 'denim'
+pkgname=denim
+version=0.2.0
+revision=0
+build_style=cargo
+short_desc="Make and run Rust scripts with focus on minimal runtime overhead and ease of development"
+maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
+license="MIT"
+homepage="https://github.com/jpastuszek/denim"
+distfiles="https://github.com/jpastuszek/denim/archive/refs/tags/v${version}.tar.gz"
+wrksrc="${pkgname}-v${version}"
+checksum=183a85df9c737b0a8c8f961fb6da5bb9083f8a8e0969141891adc154e4fbdf9f
+
+post_install() {
+	vlicense LICENSE
+	vdoc README.md
+}
