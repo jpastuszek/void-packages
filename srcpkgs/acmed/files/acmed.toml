@@ -1,0 +1,22 @@
+# Example configuration for acmed
+# See: man acmed.toml
+[[rate-limit]]
+name = "LE min"
+number = 20
+period = "1s"
+
+[[endpoint]]
+name = "letsencrypt v2"
+url = "https://acme-v02.api.letsencrypt.org/directory"
+rate_limits = ["LE min"]
+tos_agreed = true
+
+[[endpoint]]
+name = "letsencrypt v2 staging"
+url = "https://acme-staging-v02.api.letsencrypt.org/directory"
+rate_limits = ["LE min"]
+tos_agreed = true
+
+#[[account]]
+#name = "example"
+#contacts = [ { mailto = "me@example.com" } ]

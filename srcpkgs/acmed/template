@@ -1,0 +1,31 @@
+# Template file for 'acmed'
+pkgname=acmed
+version=0.18.0
+revision=3
+build_style=cargo
+hostmakedepends="pkg-config"
+makedepends="openssl-devel"
+short_desc="ACME (RFC 8555) client daemon"
+maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
+license="Apache-2.0, MIT"
+homepage="https://github.com/breard-r/acmed"
+distfiles="https://github.com/breard-r/acmed/archive/refs/tags/v${version}.tar.gz"
+checksum=ad8b44fa7efb2e7d72c69f3e20cbbb2119a1346e27a343e6471ea7f45d9fe5c8
+system_accounts="_acmed"
+system_groups="_acmed"
+conf_files="/etc/acmed/acmed.toml"
+make_dirs="/var/lib/acmed 0750 _acmed _acmed"
+configuer_args="--package acmed"
+make_install_args="--path acmed"
+
+post_install() {
+	vsv acmed
+	vinstall ${FILESDIR}/acmed.toml 644 etc/acmed/
+	vlicense LICENSE-APACHE-2.0.txt
+	vlicense LICENSE-MIT.txt
+	vdoc README.md
+	vdoc CHANGELOG.md
+	vdoc CONTRIBUTING.md
+	vman man/en/acmed.8
+	vman man/en/acmed.toml.5
+}

@@ -1,0 +1,4 @@
+#!/bin/sh
+[ -r conf ] && . ./conf
+install -o _acmed -g _acmed -d /run/acmed
+exec chpst -u _acmed:_acmed acmed --foreground --pid-file /run/acmed/pid ${OPTS:=--log-syslog --log-level info} 1>&2
