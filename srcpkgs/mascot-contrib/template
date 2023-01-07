@@ -1,0 +1,62 @@
+# Template file for 'mascot-contrib'
+pkgname=mascot-contrib
+version=0.3.2alpha230107
+revision=1
+build_style=cargo
+short_desc="Configuraiton management system - extra delegates"
+maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://sr.ht/~jpastuszek/mascot-contrib/"
+#distfiles="https://git.sr.ht/~jpastuszek/mascot-contrib/archive/v${version}.tar.gz"
+distfiles="https://voidlinux.jpastuszek.net/distfiles/mascot-contrib-v${version}.tar.gz"
+wrksrc="${pkgname}-v${version}"
+checksum=f05e3d9894f7913c3a711592109e4bc6f4e23360101aa9427e886b1fb7a8f12b
+
+do_install() {
+	: ${make_cmd:=cargo}
+
+	for P in \
+		mascot-config-runit-service \
+		mascot-config-xbps-package \
+		mascot-delegate-runit-service \
+		mascot-delegate-xbps-package \
+	; do
+		${make_cmd} install --target ${RUST_TARGET} --root="${DESTDIR}/usr" \
+			${configure_args} --path $P ${make_install_args}
+	done
+
+	rm -f "${DESTDIR}"/usr/.crates.toml
+	rm -f "${DESTDIR}"/usr/.crates2.json
+}
+
+post_install() {
+	vlicense LICENSES/GPL-3.0-or-later.txt
+}
+
+mascot-config-runit-service_package() {
+	short_desc="Configuraiton management system - generate mascot-delegate-runit-service delegated Mascot configuration"
+	pkg_install() {
+		vmove usr/bin/mascot-config-runit-service
+	}
+}
+
+mascot-config-xbps-package_package() {
+	short_desc="Configuraiton management system - generate mascot-delegate-xbps-package delegated Mascot configuration"
+	pkg_install() {
+		vmove usr/bin/mascot-config-xbps-package
+	}
+}
+
+mascot-delegate-runit-service_package() {
+	short_desc="Configuraiton management system - delegate runtime for managing runit services"
+	pkg_install() {
+		vmove usr/bin/mascot-delegate-runit-service
+	}
+}
+
+mascot-delegate-xbps-package_package() {
+	short_desc="Configuraiton management system - delegate runtime for managing XBPS packages"
+	pkg_install() {
+		vmove usr/bin/mascot-delegate-xbps-package
+	}
+}
