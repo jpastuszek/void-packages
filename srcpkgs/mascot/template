@@ -1,6 +1,6 @@
 # Template file for 'mascot'
 pkgname=mascot
-version=0.3.2alpha230107
+version=0.3.2alpha230331
 revision=1
 build_style=cargo
 hostmakedepends="pkg-config"
@@ -12,7 +12,7 @@ homepage="https://sr.ht/~jpastuszek/mascot/"
 #distfiles="https://git.sr.ht/~jpastuszek/mascot/archive/v${version}.tar.gz"
 distfiles="https://voidlinux.jpastuszek.net/distfiles/mascot-v${version}.tar.gz"
 wrksrc="${pkgname}-v${version}"
-checksum=185e6a45c2767f09c192cfc92c397b7f333016f23bfcd7094c297ba71ddb25d6
+checksum=793b7a5176354e6f1fe6cc8338f65515e40bc91b30cb8cd5aca29f84b5bac2bb
 
 do_install() {
 	: ${make_cmd:=cargo}

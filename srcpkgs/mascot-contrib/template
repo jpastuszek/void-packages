@@ -1,6 +1,6 @@
 # Template file for 'mascot-contrib'
 pkgname=mascot-contrib
-version=0.3.2alpha230107
+version=0.3.2alpha230331
 revision=1
 build_style=cargo
 short_desc="Configuraiton management system - extra delegates"
@@ -10,16 +10,18 @@ homepage="https://sr.ht/~jpastuszek/mascot-contrib/"
 #distfiles="https://git.sr.ht/~jpastuszek/mascot-contrib/archive/v${version}.tar.gz"
 distfiles="https://voidlinux.jpastuszek.net/distfiles/mascot-contrib-v${version}.tar.gz"
 wrksrc="${pkgname}-v${version}"
-checksum=f05e3d9894f7913c3a711592109e4bc6f4e23360101aa9427e886b1fb7a8f12b
+checksum=1196a685c1afead78bf85ed78a0732b5a88b0692c2f1869e438248cbaeaca11e
 
 do_install() {
 	: ${make_cmd:=cargo}
 
 	for P in \
 		mascot-config-runit-service \
-		mascot-config-xbps-package \
 		mascot-delegate-runit-service \
+		mascot-config-xbps-package \
 		mascot-delegate-xbps-package \
+		mascot-config-archive \
+		mascot-delegate-archive \
 	; do
 		${make_cmd} install --target ${RUST_TARGET} --root="${DESTDIR}/usr" \
 			${configure_args} --path $P ${make_install_args}
@@ -40,13 +42,6 @@ mascot-config-runit-service_package() {
 	}
 }
 
-mascot-config-xbps-package_package() {
-	short_desc="Configuraiton management system - generate mascot-delegate-xbps-package delegated Mascot configuration"
-	pkg_install() {
-		vmove usr/bin/mascot-config-xbps-package
-	}
-}
-
 mascot-delegate-runit-service_package() {
 	short_desc="Configuraiton management system - delegate runtime for managing runit services"
 	pkg_install() {
@@ -54,9 +49,30 @@ mascot-delegate-runit-service_package() {
 	}
 }
 
+mascot-config-xbps-package_package() {
+	short_desc="Configuraiton management system - generate mascot-delegate-xbps-package delegated Mascot configuration"
+	pkg_install() {
+		vmove usr/bin/mascot-config-xbps-package
+	}
+}
+
 mascot-delegate-xbps-package_package() {
 	short_desc="Configuraiton management system - delegate runtime for managing XBPS packages"
 	pkg_install() {
 		vmove usr/bin/mascot-delegate-xbps-package
+	}
+}
+
+mascot-config-archive_package() {
+	short_desc="Configuraiton management system - generate mascot-delegate-archive delegated Mascot configuration"
+	pkg_install() {
+		vmove usr/bin/mascot-config-archive
+	}
+}
+
+mascot-delegate-archive_package() {
+	short_desc="Configuraiton management system - extract archives in a given directory"
+	pkg_install() {
+		vmove usr/bin/mascot-delegate-archive
 	}
 }
