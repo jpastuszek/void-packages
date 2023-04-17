@@ -1,16 +1,16 @@
 # Template file for 'mascot-contrib'
 pkgname=mascot-contrib
-version=0.3.2alpha230331
+version=0.2.0
 revision=1
 build_style=cargo
 short_desc="Configuraiton management system - extra delegates"
 maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://sr.ht/~jpastuszek/mascot-contrib/"
-#distfiles="https://git.sr.ht/~jpastuszek/mascot-contrib/archive/v${version}.tar.gz"
-distfiles="https://voidlinux.jpastuszek.net/distfiles/mascot-contrib-v${version}.tar.gz"
+distfiles="https://git.sr.ht/~jpastuszek/mascot-contrib/archive/v${version}.tar.gz"
+#distfiles="https://voidlinux.jpastuszek.net/distfiles/mascot-contrib-v${version}.tar.gz"
 wrksrc="${pkgname}-v${version}"
-checksum=1196a685c1afead78bf85ed78a0732b5a88b0692c2f1869e438248cbaeaca11e
+checksum=e8e16032c2c7c399e3de67836a7f1bb682ee75bef85a6c5fadd2e152ef72e2b9
 
 do_install() {
 	: ${make_cmd:=cargo}
