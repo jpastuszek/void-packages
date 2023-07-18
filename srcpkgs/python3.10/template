@@ -2,7 +2,7 @@
 #
 # THIS PACKAGE MUST BE SYNCHRONIZED WITH "srcpkgs/python3-tkinter".
 #
-pkgname=python310
+pkgname=python3.10
 version=3.10.12
 revision=0
 py3_ver="3.10"
