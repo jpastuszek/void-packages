@@ -1,0 +1,17 @@
+# Template file for 'python3-zombie-imp'
+pkgname=python3-zombie-imp
+version=0.0.2
+revision=0
+build_style=python3-pep517
+hostmakedepends="python3-setuptools python3-wheel"
+depends="python3"
+short_desc="A copy of the 'imp' moduhe that was removed in Python 3.12"
+maintainer="Jakub Pastuszek <jpastuszek@protonmail.com>"
+license="Python-2.0"
+homepage="https://github.com/encukou/zombie-imp"
+distfiles="${PYPI_SITE}/z/zombie-imp/zombie-imp-${version}.tar.gz"
+checksum=87205ef561d05b0d397489075e1246a577dcaae709470858c819c4c6c9d7f38b
+
+post_install() {
+	vlicense LICENSE
+}
