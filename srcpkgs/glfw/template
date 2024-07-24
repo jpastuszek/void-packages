@@ -2,7 +2,7 @@
 # update together with glfw-wayland
 pkgname=glfw
 version=3.4
-revision=1
+revision=666
 build_style=cmake
 configure_args="-DBUILD_SHARED_LIBS=ON"
 hostmakedepends="pkg-config wayland-devel"

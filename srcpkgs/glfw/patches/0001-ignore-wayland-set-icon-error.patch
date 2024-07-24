@@ -1,0 +1,27 @@
+From 5d7f2878cd999e9a77407ebd68e21ba84161df76 Mon Sep 17 00:00:00 2001
+From: Jakub Pastuszek <jpastuszek@protonmail.com>
+Date: Wed, 24 Jul 2024 19:56:30 +0100
+Subject: [PATCH] ignore wayland set icon error
+
+---
+ src/wl_window.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/wl_window.c b/src/wl_window.c
+index 2e842aaa..91043312 100644
+--- a/src/wl_window.c
++++ b/src/wl_window.c
+@@ -2235,8 +2235,8 @@ void _glfwSetWindowTitleWayland(_GLFWwindow* window, const char* title)
+ void _glfwSetWindowIconWayland(_GLFWwindow* window,
+                                int count, const GLFWimage* images)
+ {
+-    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
+-                    "Wayland: The platform does not support setting the window icon");
++    // _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
++    //                 "Wayland: The platform does not support setting the window icon");
+ }
+ 
+ void _glfwGetWindowPosWayland(_GLFWwindow* window, int* xpos, int* ypos)
+-- 
+2.45.2
+
